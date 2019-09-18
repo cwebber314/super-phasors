@@ -13,7 +13,7 @@ fig = px.scatter(iris, x="sepal_width", y="sepal_length")
 #app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 app = dash.Dash(__name__)
 server = app.server
-app.title=tabtitle
+app.title='Maths!'
 
 ########### Set up the layout
 app.layout = html.Div(children=[
