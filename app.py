@@ -7,27 +7,38 @@ import dash_core_components as dcc
 import numpy as np
 from numpy import sin, pi, cos, sum
 
-t = np.linspace(0,2/60.0,200)
-A1 = 1
-A2 = 1
-f1 = 60
-f2 = 180
-y1 = A1 * sin(2*pi*f1 * t)
-y2 = A2 * sin(2*pi*f2 * t)
-ysum = y1 + y2
+def get_graph(f1, f2, which=1):
+    t = np.linspace(0,2/60.0,200)
+    A1 = 1
+    A2 = 1
+    f1 = f1
+    f2 = f2
+    y1 = A1 * sin(2*pi*f1 * t)
+    y2 = A2 * sin(2*pi*f2 * t)
+    ysum = y1 + y2
 
-fig1 = go.Figure()
-fig1.add_trace(go.Scatter(x=t, y=y1,
-                    mode='lines',
-                    name='y1'))
-fig1.add_trace(go.Scatter(x=t, y=y2,
-                    mode='lines',
-                    name='y2'))
+    if which==1:
+        fig1 = go.Figure()
+        fig1.add_trace(go.Scatter(x=t, y=y1,
+                            mode='lines',
+                            name='y1'))
+        fig1.add_trace(go.Scatter(x=t, y=y2,
+                            mode='lines',
+                            name='y2'))
+        fig = fig1
+    elif which == 2:
+        fig2 = go.Figure()
+        fig2.add_trace(go.Scatter(x=t, y=ysum,
+                            mode='lines',
+                            name='ysum'))
+        fig = fig2
 
-fig2 = go.Figure()
-fig2.add_trace(go.Scatter(x=t, y=ysum,
-                    mode='lines',
-                    name='ysum'))
+    return fig
+
+
+fig1 = get_graph(60, 120, which=1)
+fig2 = get_graph(60, 120, which=2)
+
 
 ss1 = dcc.Slider(
     id='slider1',
@@ -57,7 +68,7 @@ ss2 = dcc.Slider(
         240: "240 Hz",
         300: "300 Hz",
     },
-    value=60
+    value=120
 )  
 
 ########### Initiate the app
@@ -65,19 +76,20 @@ ss2 = dcc.Slider(
 #app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
 app = dash.Dash(__name__)
 server = app.server
-app.title='Maths!'
+app.title='Super Phasors'
 
 ########### Set up the layout
 app.layout = html.Div(children=[
     html.H1("Super Sines"),
-    dcc.Graph(
-        id='plot1',
-        figure=fig1
-        ),
+    html.P("Move the sliders to change the frequency of the two sine wavees"),
     ss1,
     html.P(),
     ss2,
     html.P(),
+    dcc.Graph(
+        id='plot1',
+        figure=fig1
+        ),
     dcc.Graph(
         id='plot2',
         figure=fig2
@@ -88,41 +100,18 @@ app.layout = html.Div(children=[
 @app.callback(
     dash.dependencies.Output('plot1', 'figure'),
     [dash.dependencies.Input('slider1', 'value'), dash.dependencies.Input('slider2', 'value')])
-def update_graph1(value1, value2):
-    t = np.linspace(0,2/60.0,200)
-    A = 1
-    f1 = value1
-    f2 = value2
-    y1 = A * sin(2*pi*f1 * t)
-    y2 = A * sin(2*pi*f2 * t)
-
-    fig1 = go.Figure()
-    fig1.add_trace(go.Scatter(x=t, y=y1,
-                        mode='lines',
-                        name='y1'))
-    fig1.add_trace(go.Scatter(x=t, y=y2,
-                        mode='lines',
-                        name='y2'))
-    return fig1
+def update_graph1(f1, f2):
+    fig = get_graph(f1, f2, which=1)
+    return fig
 
 
 @app.callback(
     dash.dependencies.Output('plot2', 'figure'),
     [dash.dependencies.Input('slider1', 'value'), dash.dependencies.Input('slider2', 'value')])
-def update_graph2(value1, value2):
-    t = np.linspace(0,2/60.0,200)
-    A = 1
-    f1 = value1
-    f2 = value2
-    y1 = A * sin(2*pi*f1 * t)
-    y2 = A * sin(2*pi*f2 * t)
-    ysum = y1 + y2
+def update_graph2(f1, f2):
+    fig = get_graph(f1, f2, which=2)
+    return fig
 
-    fig2 = go.Figure()
-    fig2.add_trace(go.Scatter(x=t, y=ysum,
-                        mode='lines',
-                        name='ysum'))
-    return fig2
 
 
 
