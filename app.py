@@ -25,12 +25,46 @@ def get_graph(f1, f2, which=1):
         fig1.add_trace(go.Scatter(x=t, y=y2,
                             mode='lines',
                             name='y2'))
+        fig1.update_layout(
+            title=go.layout.Title(
+                text="Sine Waves",
+                xref="paper",
+                x=0
+            ),
+            xaxis=go.layout.XAxis(
+                title=go.layout.xaxis.Title(
+                    text="time",
+                )
+            ),
+            yaxis=go.layout.YAxis(
+                title=go.layout.yaxis.Title(
+                    text="Amplitude",
+                )
+            )
+        )
         fig = fig1
     elif which == 2:
         fig2 = go.Figure()
         fig2.add_trace(go.Scatter(x=t, y=ysum,
                             mode='lines',
                             name='ysum'))
+        fig2.update_layout(
+            title=go.layout.Title(
+                text="Sum of sine waves",
+                xref="paper",
+                x=0
+            ),
+            xaxis=go.layout.XAxis(
+                title=go.layout.xaxis.Title(
+                    text="time",
+                )
+            ),
+            yaxis=go.layout.YAxis(
+                title=go.layout.yaxis.Title(
+                    text="Amplitude",
+                )
+            )
+        )
         fig = fig2
 
     return fig
@@ -85,12 +119,12 @@ app.layout = html.Div(children=[
     ss1,
     html.P(),
     ss2,
-    html.P("Plot of sine waves y1, y2"),
+    # html.P("Plot of sine waves y1, y2"),
     dcc.Graph(
         id='plot1',
         figure=fig1
         ),
-    html.P("Plot of sum(y1+y2)"),
+    # html.P("Plot of sum(y1+y2)"),
     dcc.Graph(
         id='plot2',
         figure=fig2
