@@ -4,11 +4,8 @@ import dash_html_components as html
 import plotly.graph_objs as go
 import plotly.express as px
 import dash_core_components as dcc
-
-import pandas as pd
 import numpy as np
 from numpy import sin, pi, cos, sum
-from matplotlib import pyplot as plt
 
 t = np.linspace(0,2/60.0,200)
 A1 = 1
