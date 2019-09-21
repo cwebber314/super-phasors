@@ -85,11 +85,12 @@ app.layout = html.Div(children=[
     ss1,
     html.P(),
     ss2,
-    html.P(),
+    html.P("Plot of sine waves y1, y2"),
     dcc.Graph(
         id='plot1',
         figure=fig1
         ),
+    html.P("Plot of sum(y1+y2)"),
     dcc.Graph(
         id='plot2',
         figure=fig2
