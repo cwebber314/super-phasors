@@ -166,30 +166,30 @@ app = dash.Dash(__name__, external_stylesheets=[dbc.themes.BOOTSTRAP])
 server = app.server
 app.title='Super Phasors'
 
-########### Set up the layout
-# app.layout = html.Div(children=[
-#     html.H1("Super Sines"),
-#     html.P("Move the sliders to change the frequency of the two sine wavees"),
-#     sf1,
-#     html.P(),
-#     sf2,
-#     # html.P("Plot of sine waves y1, y2"),
-#     dcc.Graph(
-#         id='plot1',
-#         figure=fig1
-#         ),
-#     # html.P("Plot of sum(y1+y2)"),
-#     dcc.Graph(
-#         id='plot2',
-#         figure=fig2
-#         ),    
-#     ]
-# )
+navbar = dbc.NavbarSimple(
+    children=[
+        dbc.NavItem(dbc.NavLink("Link", href="#")),
+        dbc.DropdownMenu(
+            nav=True,
+            in_navbar=True,
+            label="Menu",
+            children=[
+                dbc.DropdownMenuItem("Entry 1"),
+                dbc.DropdownMenuItem("Entry 2"),
+                dbc.DropdownMenuItem(divider=True),
+                dbc.DropdownMenuItem("Entry 3"),
+            ],
+        ),
+    ],
+    brand="Super Phasors",
+    brand_href="#",
+    sticky="top",
+)
 
 body = dbc.Container([
     dbc.Row([
         dbc.Col([
-            html.H1("Super Sines"),
+            html.H2("Super Sines"),
             html.P("Move the sliders to change the frequency of the two sine wavees"),
         ])
     ]),
@@ -235,7 +235,7 @@ body = dbc.Container([
             ])
         ])
     ])
-app.layout = html.Div([body])
+app.layout = html.Div([navbar, body])
 
 
 @app.callback(
